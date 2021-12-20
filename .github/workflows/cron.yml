@@ -1,0 +1,22 @@
+name: Send a msg.
+on:
+  schedule:
+    - cron: '*/3 * * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: 消息服务测试
+      run: |
+        git config --global user.name "MusicSharing" 
+        git config --global user.email music@ermaozi.xyz
+        python3 log.py > data.log
+        git add .
+        git checkout --orphan new_branch
+        git commit -m "push auto"
+        git branch -D master
+        git branch -m master
+        git push -f origin master
+      env:
+        DINGTALK: ${{ secrets.DINGTALK }}

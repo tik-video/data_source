@@ -1,0 +1,17 @@
+name: 每周删除提交记录
+on:
+  schedule:
+    - cron: '30 * * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: 删除提交记录
+      run: |
+        python3 -c "import time; print(f\"time.strftime('%Y-%m-%d %H:%M:%S')\")" >> test.log
+        git config --global user.name "workflow" 
+        git config --global user.email workflow@git.com
+        git add ./test.log
+        git commit -m "workflows."
+        git push

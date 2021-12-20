@@ -1,0 +1,23 @@
+name: push a file
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.js'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run push auto.
+      run: |
+        python3 log.py > data.log
+        git config --global user.name "MusicSharing" 
+        git config --global user.email music@ermaozi.xyz 
+        git add .
+        git checkout --orphan new_branch
+        git commit -m "push auto"
+        git branch -D master
+        git branch -m master
+        git push -f origin master

@@ -1,0 +1,20 @@
+name: send a message
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: echo to file hhh.
+      run: |
+        python3 log.py > data.log
+        git config --global user.name "hello" 
+        git config --global user.email music@ermaozi.xyz 
+        git add .
+        git commit -m "send a msg"
+        git push
+      env:
+        DINGTALK: ${{ secrets.DINGTALK }}
